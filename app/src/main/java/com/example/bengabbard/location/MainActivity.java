@@ -31,9 +31,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         View linearLayout = findViewById(R.id.layout1);
         show = (Button) findViewById(R.id.btn);
-        msg= (TextView)findViewById(R.id.msg);
-        la = (TextView) findViewById(R.id.textview1);
-        lon = (TextView) findViewById(R.id.textview2);
+        msg = (TextView) findViewById(R.id.msg);
+        la =  (TextView) findViewById(R.id.textlat);
+        lon = (TextView) findViewById(R.id.textlong);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -62,20 +62,20 @@ public class MainActivity extends Activity {
     }
 
     private void showLocation(Location location) {
-        if(location==null){
+        if (location == null) {
 
-            Toast.makeText(getApplicationContext(),"Currently you are located at:",Toast.LENGTH_LONG).show();
-        }else{
-            la.setText("Lat  : "+location.getLatitude());
-            lon.setText("Long : "+location.getLongitude());
+            Toast.makeText(getApplicationContext(), "Currently you are located at:", Toast.LENGTH_LONG).show();
+        } else {
+            la.setText( " " + location.getLatitude());
+            lon.setText(" " + location.getLongitude());
         }
     }
 
 
-    private LocationListener listener=new LocationListener() {
+    private LocationListener listener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-        showLocation(location);
+            showLocation(location);
         }
 
         @Override
@@ -90,18 +90,40 @@ public class MainActivity extends Activity {
 
         @Override
         public void onProviderDisabled(String provider) {
-;
+            ;
         }
     };
+
     @Override
-    protected void onPause(){
+    protected void onPause() {
 
         super.onPause();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         locationManager.removeUpdates(listener);
     }
+
     @Override
-    protected void onResume (){
+    protected void onResume() {
         super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         locationManager.requestLocationUpdates(PROVIDER, 0, 0, listener);
 
 
