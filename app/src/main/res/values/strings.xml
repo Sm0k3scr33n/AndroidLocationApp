@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Location</string>
+    <string name="btn">Get Location</string>
+</resources>
